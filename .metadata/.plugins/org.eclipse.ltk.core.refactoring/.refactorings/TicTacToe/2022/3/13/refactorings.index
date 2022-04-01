@@ -1,0 +1,5 @@
+1648139174145	Extract method 'printBoard'
+1648140473318	Extract method 'playerTurn'
+1648150300744	Extract method 'placeMove'
+1648151426302	Extract method 'computerTurn'
+1648154313522	Extract method 'hasConstantWon'
