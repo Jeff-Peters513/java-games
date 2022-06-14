@@ -12,8 +12,7 @@ public class TicTacToeObj implements ActionListener {
 	JPanel title_panel = new JPanel();
 	JPanel button_panel = new JPanel();
 	JLabel textfield = new JLabel();
-	JPanel restart_panel = new JPanel();
-	JLabel restartfield = new JLabel();
+	JButton restartbutton = new JButton();
 	JButton[] buttons = new JButton[9];
 	boolean player1_turn;
 
@@ -24,6 +23,7 @@ public class TicTacToeObj implements ActionListener {
 		frame.setSize(800, 900);
 		frame.getContentPane().setBackground(new Color(50, 50, 50));
 		frame.setLayout(new BorderLayout());
+		frame.setTitle("Enhanced TicTacToe Game");
 		frame.setVisible(true);
 
 		// create another textfield for restart button
@@ -33,24 +33,20 @@ public class TicTacToeObj implements ActionListener {
 		textfield.setHorizontalAlignment(JLabel.CENTER);
 		textfield.setText("Tic-Tac-Toe");
 		textfield.setOpaque(true);
-
-		restartfield.setBackground(new Color(25, 25, 25));
-		restartfield.setForeground(new Color(25, 255, 0));
-		restartfield.setFont(new Font("Ink Free", Font.BOLD, 75));
-		restartfield.setHorizontalAlignment(JLabel.CENTER);
-		restartfield.setText("restartfield");
-		restartfield.setOpaque(true);		
-		
 		
 		// this changes?
 		title_panel.setLayout(new BorderLayout());
 		title_panel.setBounds(0, 0, 800, 100);
 		
-		restart_panel.setLayout(new BorderLayout());
-		restart_panel.setBounds(0, 800, 800, 100);
-
 		button_panel.setLayout(new GridLayout(3, 3));
 		button_panel.setBackground(new Color(150, 150, 150));
+		
+		restartbutton.setBounds(0, 600, 800, 100);
+		restartbutton.setBackground(new Color(150,150,0));
+		restartbutton.setFont(new Font("MV Boli", Font.BOLD, 75));
+		restartbutton.setText("Restart");
+		restartbutton.setFocusable(false);
+		restartbutton.addActionListener(this);
 
 		for (int i = 0; i < 9; i++) {
 			buttons[i] = new JButton();
@@ -62,9 +58,8 @@ public class TicTacToeObj implements ActionListener {
 		}
 
 		title_panel.add(textfield);
-		restart_panel.add(restartfield);
 		frame.add(title_panel, BorderLayout.NORTH);
-		frame.add(restart_panel, BorderLayout.SOUTH);
+		frame.add(restartbutton, BorderLayout.SOUTH);
 		frame.add(button_panel);
 
 		firstTurn();
@@ -189,6 +184,9 @@ public class TicTacToeObj implements ActionListener {
 
 				}
 			}
+		}
+		if(e.getSource() == restartbutton) {
+			System.out.println("The restart button is working!");
 		}
 
 	}
