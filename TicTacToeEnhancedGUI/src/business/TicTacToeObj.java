@@ -142,7 +142,7 @@ public class TicTacToeObj implements ActionListener {
 		}
 		if ((buttons[1].getText() == "O") && (buttons[4].getText() == "O") && (buttons[7].getText() == "O")) {
 			checkDraw = false;
-			
+
 			oWins(1, 4, 7);
 		}
 		if ((buttons[2].getText() == "O") && (buttons[5].getText() == "O") && (buttons[8].getText() == "O")) {
@@ -153,10 +153,7 @@ public class TicTacToeObj implements ActionListener {
 			checkDraw = false;
 			oWins(0, 4, 8);
 		}
-		if ((buttons[2].getText() == "O") 
-				&& (buttons[4].getText() == "O") 
-				&& (buttons[6].getText() == "O")) 
-		{
+		if ((buttons[2].getText() == "O") && (buttons[4].getText() == "O") && (buttons[6].getText() == "O")) {
 			checkDraw = false;
 			oWins(2, 4, 6);
 		}
@@ -223,11 +220,9 @@ public class TicTacToeObj implements ActionListener {
 			}
 		}
 		if (e.getSource() == restartbutton) {
-			//System.out.println("The restart button is working!");
-			//frame.remove(frame);
+			// System.out.println("The restart button is working!");
+			frame.dispose();
 			new TicTacToeObj();
-			// frame.add(TicTacToeObj);
-			//SwingUtilities.updateComponentTreeUI(frame);
 		}
 
 	}
