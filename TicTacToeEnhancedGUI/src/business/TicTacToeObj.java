@@ -15,6 +15,8 @@ public class TicTacToeObj implements ActionListener {
 	JButton restartbutton = new JButton();
 	JButton[] buttons = new JButton[9];
 	boolean player1_turn;
+	int spaces = 9;
+	boolean checkDraw = true;
 
 	public TicTacToeObj() {
 
@@ -33,16 +35,16 @@ public class TicTacToeObj implements ActionListener {
 		textfield.setHorizontalAlignment(JLabel.CENTER);
 		textfield.setText("Tic-Tac-Toe");
 		textfield.setOpaque(true);
-		
+
 		// this changes?
 		title_panel.setLayout(new BorderLayout());
 		title_panel.setBounds(0, 0, 800, 100);
-		
+
 		button_panel.setLayout(new GridLayout(3, 3));
 		button_panel.setBackground(new Color(150, 150, 150));
-		
+
 		restartbutton.setBounds(0, 600, 800, 100);
-		restartbutton.setBackground(new Color(150,150,0));
+		restartbutton.setBackground(new Color(150, 150, 0));
 		restartbutton.setFont(new Font("MV Boli", Font.BOLD, 75));
 		restartbutton.setText("Restart");
 		restartbutton.setFocusable(false);
@@ -70,7 +72,6 @@ public class TicTacToeObj implements ActionListener {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -85,56 +86,82 @@ public class TicTacToeObj implements ActionListener {
 	}
 
 	public void check() {
+
+		// after all 9 spaces filled with X or O and no winner a draw is result
+
 		// check X win conditions
 		if ((buttons[0].getText() == "X") && (buttons[1].getText() == "X") && (buttons[2].getText() == "X")) {
+			checkDraw = false;
 			xWins(0, 1, 2);
 		}
 		if ((buttons[3].getText() == "X") && (buttons[4].getText() == "X") && (buttons[5].getText() == "X")) {
+			checkDraw = false;
 			xWins(3, 4, 5);
 		}
 		if ((buttons[6].getText() == "X") && (buttons[7].getText() == "X") && (buttons[8].getText() == "X")) {
+			checkDraw = false;
 			xWins(6, 7, 8);
 		}
 		if ((buttons[0].getText() == "X") && (buttons[3].getText() == "X") && (buttons[6].getText() == "X")) {
+			checkDraw = false;
 			xWins(0, 3, 6);
 		}
 		if ((buttons[1].getText() == "X") && (buttons[4].getText() == "X") && (buttons[7].getText() == "X")) {
+			checkDraw = false;
 			xWins(1, 4, 7);
 		}
 		if ((buttons[2].getText() == "X") && (buttons[5].getText() == "X") && (buttons[8].getText() == "X")) {
+			checkDraw = false;
 			xWins(2, 5, 8);
 		}
 		if ((buttons[0].getText() == "X") && (buttons[4].getText() == "X") && (buttons[8].getText() == "X")) {
+			checkDraw = false;
 			xWins(0, 4, 8);
 		}
 		if ((buttons[2].getText() == "X") && (buttons[4].getText() == "X") && (buttons[6].getText() == "X")) {
+			checkDraw = false;
 			xWins(2, 4, 6);
 		}
 
 		// check O win conditions
 		if ((buttons[0].getText() == "O") && (buttons[1].getText() == "O") && (buttons[2].getText() == "O")) {
+			checkDraw = false;
 			oWins(0, 1, 2);
 		}
 		if ((buttons[3].getText() == "O") && (buttons[4].getText() == "O") && (buttons[5].getText() == "O")) {
+			checkDraw = false;
 			oWins(3, 4, 5);
 		}
 		if ((buttons[6].getText() == "O") && (buttons[7].getText() == "O") && (buttons[8].getText() == "O")) {
+			checkDraw = false;
 			oWins(6, 7, 8);
 		}
 		if ((buttons[0].getText() == "O") && (buttons[3].getText() == "O") && (buttons[6].getText() == "O")) {
+			checkDraw = false;
 			oWins(0, 3, 6);
 		}
 		if ((buttons[1].getText() == "O") && (buttons[4].getText() == "O") && (buttons[7].getText() == "O")) {
+			checkDraw = false;
+			
 			oWins(1, 4, 7);
 		}
 		if ((buttons[2].getText() == "O") && (buttons[5].getText() == "O") && (buttons[8].getText() == "O")) {
+			checkDraw = false;
 			oWins(2, 5, 8);
 		}
 		if ((buttons[0].getText() == "O") && (buttons[4].getText() == "O") && (buttons[8].getText() == "O")) {
+			checkDraw = false;
 			oWins(0, 4, 8);
 		}
-		if ((buttons[2].getText() == "O") && (buttons[4].getText() == "O") && (buttons[6].getText() == "O")) {
+		if ((buttons[2].getText() == "O") 
+				&& (buttons[4].getText() == "O") 
+				&& (buttons[6].getText() == "O")) 
+		{
+			checkDraw = false;
 			oWins(2, 4, 6);
+		}
+		if (spaces == 0 && checkDraw == true) {
+			draw();
 		}
 
 	}
@@ -161,6 +188,14 @@ public class TicTacToeObj implements ActionListener {
 		textfield.setText("O Wins!!");
 	}
 
+	public void draw() {
+
+		for (int i = 0; i < 9; i++) {
+			buttons[i].setEnabled(false);
+		}
+		textfield.setText("Game ends in draw!");
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for (int i = 0; i < 9; i++) {
@@ -171,6 +206,7 @@ public class TicTacToeObj implements ActionListener {
 						buttons[i].setText("X");
 						player1_turn = false;
 						textfield.setText("O Turn");
+						spaces--;
 						check();
 					}
 				} else {
@@ -179,14 +215,19 @@ public class TicTacToeObj implements ActionListener {
 						buttons[i].setText("O");
 						player1_turn = true;
 						textfield.setText("X Turn");
+						spaces--;
 						check();
 					}
 
 				}
 			}
 		}
-		if(e.getSource() == restartbutton) {
-			System.out.println("The restart button is working!");
+		if (e.getSource() == restartbutton) {
+			//System.out.println("The restart button is working!");
+			//frame.remove(frame);
+			new TicTacToeObj();
+			// frame.add(TicTacToeObj);
+			//SwingUtilities.updateComponentTreeUI(frame);
 		}
 
 	}
