@@ -8,21 +8,24 @@ public class Quiz implements ActionListener {
 	String[] questions = { "Which company created Java?", 
 			"Which year was Java created?",
 			"What was Java originally called?",
-			"Who is credited with creating Java?"
+			"Who is credited with creating Java?",
+			"What version of Java used in the bootcamp?"
 	};
 
 	String[][] options = { 
 			{ "Sun Microsystems", "Starbucks", "Microsoft", "Alphabet" },
 			{ "1989", "1996", "1972", "1492" }, 
 			{ "Apple", "Latte", "Oak", "Koffing" },
-			{ "Steve Jobs", "Bill Gates", "James Gosling", "Mark Zuckerberg" }
+			{ "Steve Jobs", "Bill Gates", "James Gosling", "Mark Zuckerberg" },
+			{"Java 7", "Java 15","Java 8", "Java 11" }
 			};
 	
 	char[] answers = {
 			'A',
 			'B',
 			'C',
-			'C',			
+			'C',
+			'C'
 	};
 	
 	char guess;
@@ -49,6 +52,19 @@ public class Quiz implements ActionListener {
 	JLabel seconds_left = new JLabel();
 	JTextField number_right = new JTextField();
 	JTextField percentage = new JTextField();
+	
+	//Setting the timer
+	Timer timer = new Timer(1000, new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			seconds--;
+			seconds_left.setText(String.valueOf(seconds));
+			if(seconds<=0) {
+				displayAnswer();
+			}			
+		}
+	});
 	
 	
 
@@ -136,7 +152,22 @@ public class Quiz implements ActionListener {
 		time_label.setFont(new Font("MV Boli", Font.PLAIN , 20));
 		time_label.setHorizontalAlignment(JTextField.CENTER);
 		time_label.setText("Timer >:D");
-			
+		
+		number_right.setBounds(225,225,200,100);
+		number_right.setBackground(new Color(25,25,25));
+		number_right.setForeground(new Color(25,255,0));
+		number_right.setFont(new Font("Ink Free", Font.BOLD, 50));
+		number_right.setBorder(BorderFactory.createBevelBorder(1));
+		number_right.setHorizontalAlignment(JTextField.CENTER);
+		number_right.setEditable(false);
+		
+		percentage.setBounds(225,325,200,100);
+		percentage.setBackground(new Color(25,25,25));
+		percentage.setForeground(new Color(25,255,0));
+		percentage.setFont(new Font("Ink Free", Font.BOLD, 50));
+		percentage.setBorder(BorderFactory.createBevelBorder(1));
+		percentage.setHorizontalAlignment(JTextField.CENTER);
+		percentage.setEditable(false);
 		
 		frame.add(time_label);
 		frame.add(seconds_left);
@@ -151,25 +182,120 @@ public class Quiz implements ActionListener {
 		frame.add(textarea);
 		frame.add(textfield);
 		frame.setVisible(true);
+		
+		nextQuestion();
 
 	}
-
 	// methods
 	public void nextQuestion() {
-
+		if (index>=total_questions) {
+			results();
+		} else {
+			textfield.setText("Question " + (index+1));
+			textarea.setText(questions[index]);
+			answer_labelA.setText(options[index][0]);
+			answer_labelB.setText(options[index][1]);
+			answer_labelC.setText(options[index][2]);
+			answer_labelD.setText(options[index][3]);
+			
+			timer.start();
+		}
+			
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
+		buttonA.setEnabled(false);
+		buttonB.setEnabled(false);
+		buttonC.setEnabled(false);
+		buttonD.setEnabled(false);
+		
+		if (e.getSource() == buttonA) {
+			answer = 'A';
+			if(answer == answers[index]) correct_guesses++;
+		}
+		if (e.getSource() == buttonB) {
+			answer = 'B';
+			if(answer == answers[index]) correct_guesses++;
+		}
+		if (e.getSource() == buttonC) {
+			answer = 'C';
+			if(answer == answers[index]) correct_guesses++;
+		}
+		if (e.getSource() == buttonD) {
+			answer = 'D';
+			if(answer == answers[index]) correct_guesses++;
+		}
+		
+		displayAnswer();
+		
 	}
 
 	public void displayAnswer() {
-
-	}
+		
+		timer.stop();
+		
+		buttonA.setEnabled(false);
+		buttonB.setEnabled(false);
+		buttonC.setEnabled(false);
+		buttonD.setEnabled(false);
+		
+		if (answers[index] != 'A') answer_labelA.setForeground(new Color(255,0,0));
+		if (answers[index] != 'B') answer_labelB.setForeground(new Color(255,0,0));
+		if (answers[index] != 'C') answer_labelC.setForeground(new Color(255,0,0));
+		if (answers[index] != 'D') answer_labelD.setForeground(new Color(255,0,0));
+		
+		Timer pause = new Timer(2000, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				//reset for next question - change back to green
+				answer_labelA.setForeground(new Color(25,255,0));
+				answer_labelB.setForeground(new Color(25,255,0));
+				answer_labelC.setForeground(new Color(25,255,0));
+				answer_labelD.setForeground(new Color(25,255,0));
+				
+				//reset answer to blank, seconds back to 10, reEnable buttons, 
+				//increment index, call next nextQuestion method
+				answer = ' ';
+				seconds = 10;
+				seconds_left.setText(String.valueOf(seconds));
+				buttonA.setEnabled(true);
+				buttonB.setEnabled(true);
+				buttonC.setEnabled(true);
+				buttonD.setEnabled(true);
+				index++;
+				nextQuestion();
+			}
+		});
+		
+		pause.setRepeats(false);
+		pause.start();		
+		}
 
 	public void results() {
-
+		buttonA.setEnabled(false);
+		buttonB.setEnabled(false);
+		buttonC.setEnabled(false);
+		buttonD.setEnabled(false);
+		
+		result = (int)((correct_guesses/(double)total_questions)*100);
+		
+		textfield.setText("RESULTS!");
+		textarea.setText("");
+		answer_labelA.setText("");
+		answer_labelB.setText("");
+		answer_labelC.setText("");
+		answer_labelD.setText("");
+		
+		number_right.setText("("+correct_guesses +"/"+total_questions+")");
+		percentage.setText(result+"%");
+		
+		frame.add(percentage);
+		frame.add(number_right);
+		
 	}
 
 }

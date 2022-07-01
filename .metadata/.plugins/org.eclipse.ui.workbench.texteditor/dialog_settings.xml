@@ -6,14 +6,19 @@
 		<item key="wholeword" value="true"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="oWins"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="system"/>
+			<item value="number_right"/>
+			<item value="textfield"/>
 			<item value="xWins"/>
 			<item value="X"/>
 			<item value="if( "/>
 			<item value="&apos;X&apos;"/>
 		</list>
 		<list key="replacehistory">
+			<item value="percentage"/>
+			<item value="textarea"/>
 			<item value="oWins"/>
 			<item value="O"/>
 			<item value="symbol"/>

@@ -9,8 +9,5 @@ public class TicTacToeApp {
 		TicTacToeObject tictactoe = new TicTacToeObject();
 		
 		System.out.println(tictactoe);
-		
-
 	}
-
 }
